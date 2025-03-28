@@ -1,3 +1,39 @@
+// Drawer menu functionality
+document.addEventListener('DOMContentLoaded', () => {
+    const menuButton = document.getElementById('menu-button');
+    const drawer = document.getElementById('drawer');
+    const overlay = document.getElementById('overlay');
+    const drawerLinks = document.querySelectorAll('.drawer a');
+
+    if (menuButton && drawer && overlay) {
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            drawer.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+
+        overlay.addEventListener('click', () => {
+            drawer.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+
+        drawerLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                drawer.classList.remove('open');
+                overlay.classList.remove('open');
+            });
+        });
+
+        // Close drawer when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!drawer.contains(e.target) && e.target !== menuButton) {
+                drawer.classList.remove('open');
+                overlay.classList.remove('open');
+            }
+        });
+    }
+});
+
 // Initialize skill bar animations when they come into view
 const skillBars = document.querySelectorAll('.skill-bar');
 
@@ -45,16 +81,6 @@ if (contactForm) {
     });
 }
 
-// Mobile menu toggle functionality
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-
-if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-    });
-}
-
 // Smooth scrolling for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -68,11 +94,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 top: targetElement.offsetTop - 80,
                 behavior: 'smooth'
             });
-            
-            // Close mobile menu if open
-            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                mobileMenu.classList.add('hidden');
-            }
         }
     });
 });
